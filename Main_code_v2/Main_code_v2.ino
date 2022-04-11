@@ -172,6 +172,7 @@ tft.print(msg);
 }
 
 void setup() {
+
 tft.reset();
 Serial.begin(9600);
 uint16_t ID = tft.readID();
@@ -188,6 +189,9 @@ make_matrix();
 //Serial.println(new_hero.get_id());
 
 }
+
+
+bool flag = true;
 
 void loop() {
 
@@ -231,9 +235,9 @@ hero2.make_hero();
 delay(1000);
 
 
-
+flag = true;
  
-while(true){
+while(flag == true){
   
   int sensorValueX1 = analogRead(A13);
   int sensorValueY1 = analogRead(A14);
