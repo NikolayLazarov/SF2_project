@@ -17,6 +17,7 @@ extern MCUFRIEND_kbv tft;
 
 class Object{
   private:
+  int lives;
   int id;
   int x;
   int y;
@@ -34,6 +35,7 @@ class Object{
   
   Object(int id, int x, int y, int height_hero, int width_hero);
 
+  int get_lives();
   int get_id();
 
   int get_x();
@@ -42,6 +44,8 @@ class Object{
   int get_height_hero();
   int get_width_hero();  
   int get_direct();
+  
+  void set_lives(int lives);
   void set_x(int x);
 
   void set_y(int y);
