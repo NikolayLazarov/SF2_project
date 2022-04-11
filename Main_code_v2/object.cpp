@@ -2,6 +2,7 @@
 MCUFRIEND_kbv tft;
 
 Object::Object(){
+    this->lives = 3;
     this->id = id;
     this->x = x;
     this->y = y;
@@ -14,6 +15,7 @@ Object::Object(){
 //    this.color = color;
 }
   Object::Object(int id, int x, int y, int height_hero, int width_hero){
+    this->lives = 3;
     this->id =id;
     this->x = x;
     this->y = y;
@@ -26,6 +28,10 @@ Object::Object(){
 
   }
 
+  int Object::get_lives(){
+    return this->lives;
+  }
+  
   int Object::get_id(){
     return this->id;
   }
@@ -48,6 +54,9 @@ Object::Object(){
     return this->direct;
   }
 
+  void Object::set_lives(int lives){
+    this->lives = lives;
+  }
   void Object::set_x(int x){
     this->x = x;
   }
@@ -210,6 +219,7 @@ if (this->y-20 >= 30 /*&& this->weapon_y > 30 */ ){
         {        
           //fix issue where it doesnt allays puts purple and overrides the shots
           tft.fillRect(next_bullet,this->weapon_y, 30,5, PURPLE);
+//          restart();
           break;
           }
         else{
