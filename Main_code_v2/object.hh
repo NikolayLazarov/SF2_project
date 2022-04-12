@@ -21,8 +21,11 @@ class Object{
   int id;
   int x;
   int y;
+  int org_x;
+  int org_y;
   int height_hero;
   int width_hero;
+
 
   //proba weapon2
   int weapon_x;
@@ -33,7 +36,7 @@ class Object{
   public:
   Object();
   
-  Object(int id, int x, int y, int height_hero, int width_hero);
+  Object(int id, int x, int y, int height_hero, int width_hero,uint16_t color);
 
   int get_lives();
   int get_id();
@@ -44,7 +47,7 @@ class Object{
   int get_height_hero();
   int get_width_hero();  
   int get_direct();
-  
+  uint16_t get_color();
   void set_lives(int lives);
   void set_x(int x);
 
@@ -55,12 +58,14 @@ class Object{
   void set_width_hero(int new_width);
 
   void set_direct(int new_direct);
+   void set_color(uint16_t color);
 
 //  void make_brick(int counter_x, int counter_y, int boxW, int boxH, char color);
   
   void make_hero();
 
   void delete_hero();
+  void restart_hero();
 
   bool check_borders(/*Object & object,*/ int object_x, int object_up, int object_down);
    bool borders_Y(/*Object & object,*/ int object_x_r, int object_x_l, int object_y);
