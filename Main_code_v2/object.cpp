@@ -6,25 +6,31 @@ Object::Object(){
     this->id = id;
     this->x = x;
     this->y = y;
+    this->org_x = org_x;
+    this->org_y = org_y;
     this->height_hero = height_hero;
     this->width_hero = width_hero;
     //proba weapon2
     this->weapon_x = weapon_x;
     this->weapon_y = weapon_y;
     this->direct = direct;    
-//    this.color = color;
+    this->color = color;
 }
-  Object::Object(int id, int x, int y, int height_hero, int width_hero){
+  Object::Object(int id, int x, int y, int height_hero, int width_hero,uint16_t color){
     this->lives = 3;
     this->id =id;
     this->x = x;
     this->y = y;
+    this->org_x = x;
+    this->org_y = y;
+    
     this->height_hero = height_hero;
     this->width_hero = width_hero;
 //    this->direct = 'u';
     this->direct = direct;
-//    this->weapon_x = height_hero;
-//    this->weapon_y = width_hero;
+    this->weapon_x = x+height_hero;
+    this->weapon_y = y;
+    this->color = color;
 
   }
 
@@ -54,6 +60,11 @@ Object::Object(){
     return this->direct;
   }
 
+  uint16_t Object::get_color(){
+    return this->color;
+  }
+  
+
   void Object::set_lives(int lives){
     this->lives = lives;
   }
@@ -77,22 +88,26 @@ Object::Object(){
     this->direct = new_direct;
   }
 
-//  void Object::make_brick(int counter_x, int counter_y, int boxW, int boxH, char color){
-//    //see type for RED (colors) -> change char color to the right color
-//    if (color == 'r'){
-//        tft.fillRect(counter_x,counter_y,boxW,boxH,RED);  
-//    }
-//    
-//  }
-    
+  void Object::set_color(uint16_t color){
+    this->color = color;
+  }
+
   void Object::make_hero(){
 //    tft.fillRect(this->x,this->y,this->height_hero,this->width_hero,BLUE);
-  tft.fillRect(this->x,this->y,this->height_hero,this->width_hero,BLUE);
+  tft.fillRect(this->x,this->y,this->height_hero,this->width_hero,this->color);
   }
   
   void Object::delete_hero(){
+    //put weapon making here
     tft.fillRect(this->x,this->y,this->height_hero,this->width_hero,BLACK);
   }
+
+  void Object::restart_hero(){
+    this->x = this->org_x;
+    this->y = this->org_y;
+    tft.fillRect(this->x,this->y,this->height_hero,this->width_hero,this->color);
+  }
+
 
 //  Object Object::get_others_cords(Object &other){
 //    Serial.print(other.get_x());
