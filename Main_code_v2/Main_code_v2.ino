@@ -197,25 +197,16 @@ Serial.begin(9600);
 uint16_t ID = tft.readID();
 tft.begin(ID);
 tft.setRotation(1);
-//tft.invertDisplay(true);
-//make_matrix();
-
-//Object new_hero(1,70,80,20,20);
-
-//Object hero2(2,300,80,20,20);
-//
-//Serial.println(new_hero.get_x());
-//Serial.println(new_hero.get_y());
-//Serial.println(new_hero.get_id());
-
 }
 
-Object hero1(1,380,80,20,20);
-Object hero2(2,100,220,20,20);
+
+void loop() {
+
+  Object hero1(1,380,80,20,20,GREENYELLOW);
+Object hero2(2,100,220,20,20,BLUE);
 
 bool flag = true;
 
-void loop() {
   //restart cords of weapon after every restart
   //also at the begginging put them near heros position
 make_matrix();
@@ -232,35 +223,6 @@ hero2.make_hero();
   showlives(100, 100, 2,hero1,hero2, WHITE);
   delay(2000);
   showlives(100, 100, 2, hero1,hero2, BLACK);
-//hero2.make_weapon();
-//
-//void function_first(){
-//  int sensorValueX1 = analogRead(A13);
-//  int sensorValueY1 = analogRead(A14);
-//  int sensorValueS1 = digitalRead(21);
-//
-//  if(sensorValueX1 >530 ){
-//    hero1.hero_move_up();
-//  }
-//   else if(sensorValueX1 < 500 ){
-//    hero1.hero_move_down();
-//  }
-//  else if(sensorValueY1 > 530){
-//    hero1.hero_move_right();
-//  }
-//  else if(sensorValueY1 < 500){
-//    hero1.hero_move_left();
-//  }
-//
-//}
-//
-//hero1.get_others_cords(hero2);
-//delay(300);
-//Object hero3 = hero1.get_others_cords(hero2);
-//Serial.print("3rd ");
-//Serial.print(hero3.get_x());
-//Serial.print(" other, ");
-//Serial.print(hero3.get_y());
 delay(1000);
 
 
@@ -276,22 +238,7 @@ while(flag == true){
   int sensorValueY2 = analogRead(A12);
   int sensorValueS2 = digitalRead(20);
 
-//  Serial.print("Sensor 1\t\t");
-//  Serial.print(sensorValueS1);
-//  Serial.print("\t");
-//  Serial.print(sensorValueX1);//13
-//  Serial.print("\t");
-//  Serial.println(sensorValueY1);//14
-//
-//  Serial.print("Sensor 2\t\t");
-//  Serial.print(sensorValueS2);
-//  Serial.print("\t");
-//  Serial.print(sensorValueX2);//13
-//  Serial.print("\t");
-//  Serial.println(sensorValueY2);//14
-  
   delay(50);
-
 
   if (sensorValueX1 >530 || sensorValueX1 < 500 || sensorValueY1 > 530 || sensorValueY1 < 500 || sensorValueS1 == 0 ){
 
@@ -412,20 +359,6 @@ while(flag == true){
         }
 
   }
-  
-//  if(sensorValueX1 >530 ){
-//    hero1.hero_move_up();
-//  }
-//   else if(sensorValueX1 < 500 ){
-//    hero1.hero_move_down();
-//  }
-//  else if(sensorValueY1 > 530){
-//    hero1.hero_move_right();
-//  }
-//  else if(sensorValueY1 < 500){
-//    hero1.hero_move_left();
-//  }
-
   else if (sensorValueX2> 530 || sensorValueX2 < 490 || sensorValueY2 > 530 || sensorValueY2 < 490 || sensorValueS2 == 0) {
     
     if(sensorValueX2 >530 ){
@@ -449,13 +382,17 @@ while(flag == true){
 
   if (flag2 == false){
     if ( hero1.get_lives() ==0  ){
-      message_lost(100, 100, 2, "RED", YELLOW);
+      message_lost(100, 100, 2, "GREENYELLOW", YELLOW);
+      delay(3000);
+      flag = false;
       //it has to restart
 //  delay(1500);
 //   message_lost(100, 100, 2, "RED", BLACK);
     }
     else if ( hero2.get_lives() ==0  ){
       message_lost(100, 100, 2, "BLUE", YELLOW);
+      delay(1500);
+      flag = false;
       //it should restart
 //  delay(1500);
 //   message_lost(100, 100, 2, "BLUE", BLACK);
@@ -484,48 +421,20 @@ while(flag == true){
   showmsgXY(100, 100, 2, " Retart in 1...",RED);
   delay(700);
   showmsgXY(100, 100, 2, " Retart in 1...",BLACK);
+
+    make_matrix();
+    hero1.restart_hero();
+    hero2.restart_hero();
+
+      showlives(100, 100, 2,hero1,hero2, WHITE);
+        delay(2000);
+        showlives(100, 100, 2, hero1,hero2, BLACK);
+      delay(1000);
      
-    flag = false;
+    flag2 = true;
     }
     
   }
-  
-      
-//        if (sensorValueX2> 530 || sensorValueX2 < 490 || sensorValueY2 > 530 || sensorValueY2 < 490) {
-//    
-//            if(sensorValueX2 >530 ){
-//              hero2.hero_move_up();
-//            
-//            }
-//             else if(sensorValueX2 < 490 ){
-//              hero2.hero_move_down();
-//            }
-//            else if(sensorValueY2 > 530){
-//              hero2.hero_move_right();
-//            }
-//            else if(sensorValueY2 < 490){
-//              hero2.hero_move_left();
-//            }
-//          }
-      }
+ }
 }
-
-
-    
-//   if(sensorValueX2 >530 ){
-//    hero2.hero_move_up()
-//  
-//  }
-//   else if(sensorValueX2 < 490 ){
-//    hero2.hero_move_down();
-//  }
-//  else if(sensorValueY2 > 530){
-//    hero2.hero_move_right();
-//  }
-//  else if(sensorValueY2 < 490){
-//    hero2.hero_move_left();
-//  }
-//}
-//  
-//  }
-//}
+  
