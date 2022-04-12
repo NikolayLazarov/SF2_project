@@ -29,7 +29,7 @@ class Object{
   int weapon_y;
 
   int direct;
-//  String color;
+  uint16_t color;
   public:
   Object();
   
@@ -61,6 +61,9 @@ class Object{
   void make_hero();
 
   void delete_hero();
+
+  bool check_borders(/*Object & object,*/ int object_x, int object_up, int object_down);
+   bool borders_Y(/*Object & object,*/ int object_x_r, int object_x_l, int object_y);
     
   void hero_move_right();
   void hero_move_left();
@@ -72,7 +75,7 @@ class Object{
   void make_weapon_up();
   void make_weapon_down();
   void delete_weapon();
-  void bullet_right(Object &other);
+  bool bullet_right(Object &other);
 
 //  Object get_others_cords(Object &other);
 };
