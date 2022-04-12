@@ -157,18 +157,37 @@ void print_matrix_cords(){
    delay(500);
 }
 
+//void clear_message(int x,int y, int y,const char* message)
+
 int col[8];
-void showmsgXY(int x, int y, int sz, const GFXfont *f, const char *msg)
+void showmsgXY(int x, int y, int sz, /*const GFXfont *f,*/ const char *msg, uint16_t r)
 {
 int16_t x1, y1;
 uint16_t wid, ht;
-tft.setFont(f);
+//tft.setFont(f);
 tft.setCursor(x, y);
-tft.setTextColor(WHITE);
+tft.setTextColor(r);
 tft.setTextSize(sz);
 tft.print(msg);
+}
 
-//tft.invertDisplay(false);
+void showlives(int x, int y, int sz, Object p1, Object p2, uint16_t c){
+  tft.setCursor(x, y);
+  tft.setTextColor(c);
+  tft.setTextSize(sz);
+  tft.println(p1.get_lives());
+  tft.print(p2.get_lives());
+//   tft.setTextColor(WHITE);
+}
+
+
+//void message_lost(int x, int y, int sz, Object p1){
+void message_lost(int x, int y, int sz, const char* player,uint16_t r){
+  tft.setCursor(x, y);
+  tft.setTextColor(r);
+  tft.setTextSize(sz);
+  tft.println(player);
+  tft.print(" lost!");
 }
 
 void setup() {
@@ -179,9 +198,10 @@ uint16_t ID = tft.readID();
 tft.begin(ID);
 tft.setRotation(1);
 //tft.invertDisplay(true);
-make_matrix();
-//print_matrix_cords();
+//make_matrix();
+
 //Object new_hero(1,70,80,20,20);
+
 //Object hero2(2,300,80,20,20);
 //
 //Serial.println(new_hero.get_x());
@@ -190,19 +210,28 @@ make_matrix();
 
 }
 
+Object hero1(1,380,80,20,20);
+Object hero2(2,100,220,20,20);
 
 bool flag = true;
 
 void loop() {
-
+  //restart cords of weapon after every restart
+  //also at the begginging put them near heros position
+make_matrix();
+//print_matrix_cords();
 //Brick(){}
 
-Object hero1(1,380,80,20,20);
+//Object hero1(1,380,80,20,20);
 hero1.make_hero();
 //hero1.make_weapon();
 
-Object hero2(2,100,220,20,20);
+//Object hero2(2,100,220,20,20);
 hero2.make_hero();
+
+  showlives(100, 100, 2,hero1,hero2, WHITE);
+  delay(2000);
+  showlives(100, 100, 2, hero1,hero2, BLACK);
 //hero2.make_weapon();
 //
 //void function_first(){
@@ -236,7 +265,7 @@ delay(1000);
 
 
 flag = true;
- 
+int flag2 = true;
 while(flag == true){
   
   int sensorValueX1 = analogRead(A13);
@@ -247,19 +276,19 @@ while(flag == true){
   int sensorValueY2 = analogRead(A12);
   int sensorValueS2 = digitalRead(20);
 
-  Serial.print("Sensor 1\t\t");
-  Serial.print(sensorValueS1);
-  Serial.print("\t");
-  Serial.print(sensorValueX1);//13
-  Serial.print("\t");
-  Serial.println(sensorValueY1);//14
-
-  Serial.print("Sensor 2\t\t");
-  Serial.print(sensorValueS2);
-  Serial.print("\t");
-  Serial.print(sensorValueX2);//13
-  Serial.print("\t");
-  Serial.println(sensorValueY2);//14
+//  Serial.print("Sensor 1\t\t");
+//  Serial.print(sensorValueS1);
+//  Serial.print("\t");
+//  Serial.print(sensorValueX1);//13
+//  Serial.print("\t");
+//  Serial.println(sensorValueY1);//14
+//
+//  Serial.print("Sensor 2\t\t");
+//  Serial.print(sensorValueS2);
+//  Serial.print("\t");
+//  Serial.print(sensorValueX2);//13
+//  Serial.print("\t");
+//  Serial.println(sensorValueY2);//14
   
   delay(50);
 
@@ -284,7 +313,7 @@ while(flag == true){
               hero2.hero_move_left();
             }
             else if (sensorValueS2 == 0){
-              hero2.bullet_right(hero1);
+             flag2 =  hero2.bullet_right(hero1);
             }
                 
           }
@@ -306,7 +335,7 @@ while(flag == true){
                 hero2.hero_move_left();
               }
               else if (sensorValueS2 == 0){
-              hero2.bullet_right(hero1);
+              flag2 = hero2.bullet_right(hero1);
             }
             }
       
@@ -329,7 +358,7 @@ while(flag == true){
                 hero2.hero_move_left();
               }
               else if (sensorValueS2 == 0){
-              hero2.bullet_right(hero1);
+              flag2 = hero2.bullet_right(hero1);
             }
             }
       
@@ -352,14 +381,14 @@ while(flag == true){
               hero2.hero_move_left();
             }
             else if (sensorValueS2 == 0){
-              hero2.bullet_right(hero1);
+              flag2 = hero2.bullet_right(hero1);
             }
           }
          
       }
       
       else if (sensorValueS1 == 0){
-        hero1.bullet_right(hero2);
+        flag2 = hero1.bullet_right(hero2);
            if (sensorValueX2> 530 || sensorValueX2 < 490 || sensorValueY2 > 530 || sensorValueY2 < 490 || sensorValueS2 == 0) {
     
             if(sensorValueX2 >530 ){
@@ -376,13 +405,14 @@ while(flag == true){
               hero2.hero_move_left();
             }
             else if (sensorValueS2 == 0){
-              hero2.bullet_right(hero1);
+              flag2 = hero2.bullet_right(hero1);
             }
             
           }
         }
 
   }
+  
 //  if(sensorValueX1 >530 ){
 //    hero1.hero_move_up();
 //  }
@@ -412,10 +442,54 @@ while(flag == true){
       hero2.hero_move_left();
     }
     else if (sensorValueS2 == 0){
-        hero2.bullet_right(hero1);
+       flag2 = hero2.bullet_right(hero1);
 //        continue;
       }
   }
+
+  if (flag2 == false){
+    if ( hero1.get_lives() ==0  ){
+      message_lost(100, 100, 2, "RED", YELLOW);
+      //it has to restart
+//  delay(1500);
+//   message_lost(100, 100, 2, "RED", BLACK);
+    }
+    else if ( hero2.get_lives() ==0  ){
+      message_lost(100, 100, 2, "BLUE", YELLOW);
+      //it should restart
+//  delay(1500);
+//   message_lost(100, 100, 2, "BLUE", BLACK);
+    }
+    else{
+      delay(500 );
+    hero1.delete_weapon();
+    hero2.delete_weapon();
+    delay(100);
+    hero1.delete_hero();
+    hero2.delete_hero();
+    delay(500);
+  showmsgXY(100, 100, 2, " The ... was shot!", RED);
+  delay(1500);
+  showmsgXY(100, 100, 2, " The ... was shot!", BLACK);
+
+  showmsgXY(100, 100, 2, " Retart in 3...", RED);
+  delay(700);
+  showmsgXY(100, 100, 2, " Retart in 3...", BLACK);
+  
+//  tft.setTextColor(BLUE);
+  showmsgXY(100, 100, 2, " Retart in 2...", RED);
+  delay(700);
+  showmsgXY(100, 100, 2, " Retart in 2...", BLACK);
+  
+  showmsgXY(100, 100, 2, " Retart in 1...",RED);
+  delay(700);
+  showmsgXY(100, 100, 2, " Retart in 1...",BLACK);
+     
+    flag = false;
+    }
+    
+  }
+  
       
 //        if (sensorValueX2> 530 || sensorValueX2 < 490 || sensorValueY2 > 530 || sensorValueY2 < 490) {
 //    
